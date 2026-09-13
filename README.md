@@ -36,9 +36,27 @@ The dataset contains **9,358 hourly recordings** from a multisensor device posit
 ## Exploratory Data Analysis
 
 - **Correlation structure:** reference gases are strongly inter-correlated (CO(GT) ↔ C6H6(GT) = 0.92, CO(GT) ↔ NOx(GT) = 0.81, NOx(GT) ↔ NO2(GT) = 0.78), consistent with a shared traffic-combustion source. Sensor–reference alignment varies: PT08.S1(CO) tracks CO(GT) strongly, PT08.S3(NOx) shows only a moderate (negative) relationship with NOx(GT), and PT08.S4(NO2) is weakly related to NO2(GT), with clear environmental bias from temperature and humidity.
+
+
+![image](images/1.png)
+
+![image](images/2.png)
+
+![image](images/3.png)
+
+
 - **Hourly pollution pattern:** two clear rush-hour peaks — **~7–9 AM** and **~6–9 PM** — coinciding with vehicle activity, visible consistently across NOx(GT), NO2(GT), CO(GT), and C6H6(GT).
 - **Seasonal distributions:** all four reference gases show a rightward shift in Sep 2004–Mar 2005 versus Mar–Aug 2004, indicating higher and more volatile winter pollution; combustion-related gases (NO2, NOx) show the most dramatic seasonal spread.
+
+
+![image](images/4.png)
+
+
 - **Feature distributions:** the reference gases are right-skewed with high-end outliers, largely reflecting real pollution events (heavy traffic, stagnant weather) rather than data errors.
+
+
+![image](images/5.png)
+
 
 ## Outlier Detection and Removal
 
@@ -54,6 +72,9 @@ High-end outliers in the reference pollutants and sensor responses were treated 
 - K-Means was fit separately for **Period 1 (Mar–Aug 2004)** and **Period 2 (Sep 2004–Mar 2005)** on the cleaned, transformed, and scaled feature set.
 - The optimal number of clusters, **k = 3**, was selected via the Elbow Method on Period 1 and applied consistently to Period 2 to enable direct comparison across periods.
 - The resulting three clusters were interpreted as **Low Pollution**, **Moderate Conditions**, and **High Pollution** states.
+
+![image](images/6.png)
+
 
 ## Cluster Evaluation
 
@@ -74,10 +95,17 @@ Since K-Means cluster labels are not guaranteed to be consistent across independ
 - **Cluster 1 (Moderate Conditions):** moderate increases in CO, benzene, and PT08 sensor readings, with temperature down (-0.80) and relative humidity up (+0.41), indicating a drift toward more variable, slightly more polluted conditions.
 - **Cluster 2 (Low Pollution):** smaller pollutant increases but higher relative (+0.62) and absolute humidity, showing that even the "cleanest" state becomes less stable in winter.
 
+
+![image](images/7.png)
+
+
 **Cluster membership changes:**
 - Cluster 1 (Moderate) fell **-27.1%**
 - Cluster 0 (High Pollution) rose **+21.5%**
 - Cluster 2 (Low Pollution) rose **+23.6%**
+
+![image](images/8.png)
+
 
 This shows a redistribution away from stable moderate conditions toward more extreme low- and high-pollution states.
 
@@ -90,6 +118,10 @@ PCA reduced the 12-dimensional feature space to two principal components for vis
 - **Horizontal (PC1) shift:** the data distribution moves rightward from Period 1 to Period 2, indicating a change in baseline atmospheric conditions with season.
 - **Expansion of the High-Pollution cluster:** Cluster 0 is compact in Period 1 but expands and moves toward the center in Period 2, reflecting more frequent and widespread high-pollution events.
 - **Change in cluster dominance:** Cluster 1 dominates the central region in Period 1, but Cluster 2 expands into that space in Period 2 — evidence that cluster boundaries are not stable across seasons.
+
+
+![image](images/9.png)
+
 
 ## Conclusion and Insights
 
